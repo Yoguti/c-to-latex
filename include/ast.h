@@ -1,0 +1,1 @@
+// Defines the Abstract Syntax Tree data structures (nodes, enums) and manages memory allocation
