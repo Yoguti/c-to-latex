@@ -1,16 +1,23 @@
 // Defines the Abstract Syntax Tree data structures (nodes, enums) and manages memory allocation
 // ast.h
+#ifndef AST_H
+#define AST_H
 
 typedef enum {
-    AST_PROGRAM,        // The root node (holds list of functions/globals)
+    AST_PROGRAM,        // root node (holds list of functions/globals)
     AST_FUNCTION_DECL,  // int main() { ... }
     AST_VAR_DECL,       // int x = 5;
     AST_BINARY_OP,      // 5 + 3
     AST_INT_LITERAL     // 5
 } NodeType;
 
-// Forward declaration so we can use it inside the struct
 struct ASTNode;
+
+/*
+This implementation has a major memory consumption trade-off by using
+a union inside the ASTNode, we could save memory by using a "base node" approach where each node type is its own struct
+inheriting from a base ASTNode struct, but that would make things more complex to manage.
+*/
 
 typedef struct ASTNode {
     NodeType type;
@@ -25,7 +32,7 @@ typedef struct ASTNode {
         struct {
             char *name;
             char *return_type;
-            struct ASTNode *body; // This points to a block of code
+            struct ASTNode *body; // points to a block of code
         } function;
 
         // Data for AST_BINARY_OP
@@ -39,3 +46,5 @@ typedef struct ASTNode {
         int int_val; 
     } data;
 } ASTNode;
+
+#endif
