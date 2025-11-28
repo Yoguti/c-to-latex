@@ -5,7 +5,8 @@
 
 typedef enum {
     AST_PROGRAM,        // root node (holds list of functions/globals)
-    AST_FUNCTION_DECL,  // int main() { ... }
+    AST_FUNCTION_DECL,  // int main()
+    AST_BLOCK, // represents {}
     AST_VAR_DECL,       // int x = 5;
     AST_BINARY_OP,      // 5 + 3
     AST_INT_LITERAL     // 5
@@ -34,6 +35,12 @@ typedef struct ASTNode {
             char *return_type;
             struct ASTNode *body; // points to a block of code
         } function;
+
+        // Data for AST_BLOCK
+        struct {
+            struct ASTNode **statements; // compound statements
+            int statement_count;
+        } block;
 
         // Data for AST_BINARY_OP
         struct {
